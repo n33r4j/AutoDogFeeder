@@ -11,7 +11,7 @@ An automatic dog feeder based on ROS 2(iron).
 - Only works for small dogs(as in the specs).
 - No other pets in the household and minimal other disturbances that might trigger the feeder.
 - Powered from a wall outlet(no batteries).
-- Gravity based food and water distribution.
+- Gravity based food and water distribution with minimal jamming.
 - The dog is not scared of the automatic feeder or the sounds it makes.
 - 
 
