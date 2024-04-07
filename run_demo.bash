@@ -1,5 +1,6 @@
-#!/bin/bash
+#!/usr/bin/bash
 
-cd ~/AutoDogFeeder
 source install/local_setup.bash
-ros2 launch adf_demo_launch.py
+colcon build
+ros2 run adf_prototype camera
+#ros2 launch adf_demo_launch.py

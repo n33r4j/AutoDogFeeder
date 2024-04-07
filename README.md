@@ -2,9 +2,18 @@
 An automatic dog feeder based on ROS 2(iron).
 
 ## Instructions to Run
+_(Haven't built an image for RPi4(arm64) yet so this won't work)_
 - Grab the docker image from <this_link>.
 - Run the container <include self startup script?>
 
+_For now_
+- Clone repo
+- `cd AutoDogFeeder/`
+- `chmod +x run_demo.sh`
+- `./run_demo.sh` which runs the Camera node.
+- You can trigger video recording by switching between publishing a `0` and `1` to the `/camera_mode` topic in a new terminal  with,
+
+`ros2 topic pub -r 10 /camera_mode std msgs/msg/Int8 "{data: 1}`
 
 
 # Assumptions
