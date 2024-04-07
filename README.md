@@ -13,7 +13,7 @@ _For now_
 - `./run_demo.sh` which runs the Camera node.
 - You can trigger video recording by switching between publishing a `0` and `1` to the `/camera_mode` topic in a new terminal  with,
 
-`ros2 topic pub -r 10 /camera_mode std msgs/msg/Int8 "{data: 1}`
+`ros2 topic pub -r 10 /camera_mode std msgs/msg/Int8 "{data: 1}"`
 
 
 # Assumptions
