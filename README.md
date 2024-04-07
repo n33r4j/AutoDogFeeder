@@ -18,9 +18,13 @@ An automatic dog feeder based on ROS 2(iron).
 # Systems Diagram
 - Raspberry Pi 4
 - USB Camera
-- PIR Sensor module
+- PIR Sensor
 - Mini servo motor
+- LCD Display
 - Speaker
+
+
+![Systems Diagram](images/system_diagram-v1.png)
 
 # Considerations
 - Dog Detection Method: several methods possible depending on size of dog, no. of dogs(or other pets) and possible disturbances.
