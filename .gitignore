@@ -1,6 +1,8 @@
+recordings/
 devel/
 logs/
 build/
+install/
 bin/
 lib/
 msg_gen/
@@ -25,12 +27,6 @@ devel_isolated/
 *.dox
 *.wikidoc
 
-# eclipse stuff
-.project
-.cproject
-
-# qcreator stuff
-CMakeLists.txt.user
 
 srv/_*.py
 *.pcd
@@ -47,5 +43,3 @@ qtcreator-*
 # Emacs
 .#*
 
-# Catkin custom files
-CATKIN_IGNORE
