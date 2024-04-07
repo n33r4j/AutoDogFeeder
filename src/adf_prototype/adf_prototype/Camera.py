@@ -3,6 +3,7 @@ from rclpy.node import Node
 from sensor_msgs.msg import Image
 from std_msgs.msg import Int8
 from cv_bridge import CvBridge
+import cv2
 
 from datetime import datetime
 
@@ -14,11 +15,14 @@ class Camera(Node):
     
         self.publisher_ = self.create_publisher(Image, 'video_frames', 10)
         self.subscription_ = self.create_subscription(Int8, '/camera_mode', self.mode_callback, 10)
-        self.mode = 0 # 0 -> idle, 1 -> timing out, 2 -> record
+        self.mode = 0 # 0 -> idle, 1 -> record
         self.framerate = 20.0
+        self.timeout = 5 # seconds
 
         self.isNewRecording = True
+        self.hasStoppedRecording = True
         self.isTimingOut = False
+        self.start_time = -1
         
         timer_period = 0.1  # seconds
         self.timer = self.create_timer(timer_period, self.timer_callback)
@@ -35,20 +39,29 @@ class Camera(Node):
     
 
     def mode_callback(self, data):
+        # self.get_logger().info('%d %d' % (self.mode, data.data))
+        if not self.isTimingOut and self.mode > data.data:
+            self.isTimingOut = True
+            self.start_time = cv2.getTickCount()
+        
         self.mode = data.data
 
     def start_recording(self):
+        self.get_logger().info('Starting recording...')
         self.fourcc = cv2.VideoWriter_fourcc(*'mp4v') # or 'XVID'
         timestamp = datetime.now().strftime("%H-%M-%S_%d-%m-%Y")
-        self.output = cv2.VideoWriter('video_{timestamp}.mp4', self.fourcc, self.framerate, (self.frameW, self.frameH))
+        self.output = cv2.VideoWriter(f'recordings/video_{timestamp}.mp4', self.fourcc, self.framerate, (self.frameW, self.frameH))
         self.isNewRecording = False
+        self.hasStoppedRecording = False
 
     def write_frame(self, frame):
         self.output.write(frame)
 
     def stop_recording(self):
+        self.get_logger().info('Stopping recording...')
         self.output.release()
         self.isNewRecording = True
+        self.hasStoppedRecording = True
 
 
     def cleanup(self):
@@ -63,18 +76,27 @@ class Camera(Node):
             
         if ret:
             self.publisher_.publish(self.br.cv2_to_imgmsg(frame))
-            self.get_logger().info('Publishing video frame')
+            # self.get_logger().info('Publishing video frame')
 
-            if self.mode == 2:
+            if self.mode == 1:
                 if self.isNewRecording:
                     self.start_recording()
                 self.write_frame(frame)
-
-            elif self.mode == 1:
-                self.write_frame(frame)
+                self.start_time = cv2.getTickCount()
 
             elif self.mode == 0:
-                pass
+                if self.isTimingOut:
+                    curr_time = (cv2.getTickCount() - self.start_time) / cv2.getTickFrequency()
+                    if curr_time < self.timeout:
+                        self.write_frame(frame)
+                    else:
+                        self.isTimingOut = False
+
+                else:
+                    if not self.hasStoppedRecording:
+                        self.stop_recording()
+                    else:
+                        pass
         else:
             self.get_logger().error("Couldn't get frame")
 
