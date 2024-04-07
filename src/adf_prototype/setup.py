@@ -20,8 +20,10 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
+            'main_console = adf_prototype.MainConsole:main',
             'camera = adf_prototype.Camera:main',
-            
+            'feeder = adf_prototype.Feeder:main',
+            'detector = adf_prototype.Detector:main',
         ],
     },
 )
