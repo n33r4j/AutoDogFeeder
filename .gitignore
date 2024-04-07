@@ -1,6 +1,7 @@
 recordings/
 devel/
 logs/
+log/
 build/
 install/
 bin/
