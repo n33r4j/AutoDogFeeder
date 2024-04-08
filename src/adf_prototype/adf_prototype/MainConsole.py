@@ -1,7 +1,7 @@
 import rclpy
 from rclpy.node import Node
 from datetime import datetime
-import time
+
 
 
 class MainConsole(Node):
@@ -14,7 +14,7 @@ class MainConsole(Node):
                               "afternoon": "07:25:30",
                               "evening": "07:26:00"}
         self.is_feeding_time = False
-        self.feeding_timer_period = 1 # seconds
+        self.feeding_timer_period = 1 # seconds.
         self.feeding_timer = self.create_timer(self.feeding_timer_period,
                                                self.feeding_timer_callback)
 
@@ -26,7 +26,7 @@ class MainConsole(Node):
         time_str = datetime.utcfromtimestamp(curr_time.sec).strftime("%H:%M:%S")
         self.get_logger().info(time_str)
         
-
+        # Better to make this check that curr_time >= feeding time [i]
         if time_str in self.feeding_times.values():
             self.get_logger().info("It's feeding time!")
             self.is_feeding_time = True # Will be reset by Feeder node.
