@@ -3,13 +3,21 @@
   "dockerFile": "Dockerfile",
   "runArgs": [
     "--privileged",
+<<<<<<< Updated upstream
     "--network=host",
     "--device-cgroup-rule=c 81:* rmw"
+=======
+    "--network=host"
+>>>>>>> Stashed changes
   ],
   "workspaceMount": "source=${localWorkspaceFolder},target=/${localWorkspaceFolderBasename},type=bind",
   "workspaceFolder": "/${localWorkspaceFolderBasename}",
   "mounts": [
+<<<<<<< Updated upstream
     "source=${localEnv:HOME}${localEnv:USERPROFILE}/.bash_history,target=/home/vscode/.bash_history,type=bind",
     "source=/dev/video0,target=/dev/video0,type=bind"
+=======
+    "source=${localEnv:HOME}${localEnv:USERPROFILE}/.bash_history,target=/home/vscode/.bash_history,type=bind"
+>>>>>>> Stashed changes
   ]
 }
