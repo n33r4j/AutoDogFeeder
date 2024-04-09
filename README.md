@@ -1,12 +1,20 @@
 # AutoDogFeeder
-An automatic dog feeder based on ROS 2(iron).
+An automatic dog feeder based on ROS 2(iron) running on a RPi4 B.
 
 ## Instructions to Run
-_(Haven't built an image for RPi4(arm64) yet so this won't work)_
-- Grab the docker image from <this_link>.
-- Run the container <include self startup script?>
+- On the Raspberry Pi, grab the docker image by running
 
-_For now_
+    `docker pull n33r4j/auto_dog_feeder:v0.1`
+
+    > _Note:  This might take a while._
+
+- Assuming docker is installed on the RPi, run the container with 
+
+    `docker run -it -v /dev/video0:/dev/video0 --device-cgroup-rule='c 81:* rmw' n33r4j/auto_dog_feeder:v0.1`
+
+    (might be better to put this in an entrypoint.sh)
+
+_Alternatively, if you have the environment already setup(without docker?)_
 - Clone repo
 - `cd AutoDogFeeder/`
 - `chmod +x run_demo.sh`
