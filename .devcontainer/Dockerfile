@@ -1,9 +1,4 @@
-<<<<<<< Updated upstream
-# Will need a prefix something like --device=linux/arm/v7 for RPi4
-FROM ros:iron
-=======
 FROM arm64v8/ros:iron
->>>>>>> Stashed changes
 
 # Add vscode user with same UID and GID as your host system
 # (copied from https://code.visualstudio.com/remote/advancedcontainers/add-nonroot-user#_creating-a-nonroot-user)
@@ -23,19 +18,12 @@ USER $USERNAME
 RUN sudo usermod --append --groups video $USERNAME
 
 # Update all packages
-<<<<<<< Updated upstream
-RUN sudo apt update && sudo apt upgrade -y
-
-# Install Git
-RUN sudo apt install -y git
-=======
 RUN sudo apt-get update && sudo apt-get upgrade -y
 
 # Install Git, Nano and other packages (https://forums.docker.com/t/dockerfile-run-apt-get-install-all-packages-at-once-or-one-by-one/17191)
 RUN sudo apt-get install -y \
     git \
     nano 
->>>>>>> Stashed changes
 
 # Rosdep update
 RUN rosdep update
