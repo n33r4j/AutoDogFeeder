@@ -4,6 +4,7 @@ from sensor_msgs.msg import Image
 from std_msgs.msg import Int8
 from cv_bridge import CvBridge
 import cv2
+import os
 
 from datetime import datetime
 
@@ -18,6 +19,9 @@ class Camera(Node):
         self.mode = 0 # 0 -> idle, 1 -> record
         self.framerate = 20.0
         self.timeout = 5 # seconds
+        self.recordings_dir = "recordings"
+        if not os.path.exists(self.recordings_dir):
+            os.makedirs(directory)
 
         self.isNewRecording = True
         self.hasStoppedRecording = True
@@ -50,7 +54,7 @@ class Camera(Node):
         self.get_logger().info('Starting recording...')
         self.fourcc = cv2.VideoWriter_fourcc(*'mp4v') # or 'XVID'
         timestamp = datetime.now().strftime("%H-%M-%S_%d-%m-%Y")
-        self.output = cv2.VideoWriter(f'recordings/video_{timestamp}.mp4', self.fourcc, self.framerate, (self.frameW, self.frameH))
+        self.output = cv2.VideoWriter(f'{self.recordings_dir}/video_{timestamp}.mp4', self.fourcc, self.framerate, (self.frameW, self.frameH))
         self.isNewRecording = False
         self.hasStoppedRecording = False
 
