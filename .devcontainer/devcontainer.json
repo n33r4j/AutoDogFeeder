@@ -1,15 +1,11 @@
 {
   "name": "adf_prototype",
-  "dockerFile": "Dockerfile",
+  "dockerFile": "../Dockerfile",
   "runArgs": [
     "--privileged",
-    "--network=host",
-    "--device-cgroup-rule=c 81:* rmw"
+    "--network=host"
   ],
   "workspaceMount": "source=${localWorkspaceFolder},target=/${localWorkspaceFolderBasename},type=bind",
   "workspaceFolder": "/${localWorkspaceFolderBasename}",
-  "mounts": [
-    "source=${localEnv:HOME}${localEnv:USERPROFILE}/.bash_history,target=/home/vscode/.bash_history,type=bind",
-    "source=/dev/video0,target=/dev/video0,type=bind"
-  ]
+  "mounts": []
 }
