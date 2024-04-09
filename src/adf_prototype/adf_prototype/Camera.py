@@ -20,8 +20,6 @@ class Camera(Node):
         self.framerate = 20.0
         self.timeout = 5 # seconds
         self.recordings_dir = "recordings"
-        if not os.path.exists(self.recordings_dir):
-            os.makedirs(directory)
 
         self.isNewRecording = True
         self.hasStoppedRecording = True
