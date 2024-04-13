@@ -1,4 +1,5 @@
 # Virtual Hardware Dashboard
+# For simulation hardware using a GUI which you can interact with using a mouse.
 
 import pygame
 from VirtPIR import VirtPIR
@@ -6,8 +7,6 @@ from VirtLCD import VirtLCD
 from VirtServo import VirtServo
 import Colors
 
-
-targets = [179,-169,159,-149,139,-129,119,-109,-99,89,-79,69,-59,45,-45, 20, -10, 140, -90, 90]
 
 
 class VirtDashboard():
@@ -24,9 +23,14 @@ class VirtDashboard():
 		pygame.display.set_caption("Virtual Dashboard")
 		
 		self.pir = VirtPIR(100,100,80)
+		# TODO: PIR publisher/serice
+		
 		self.lcd = VirtLCD(300, 30)
+		# TODO: LCD Subscriber
+
 		self.servo1 = VirtServo(500, 250)
 		self.servo1.setTarget(targets[0])
+		# TODO: servo action server
 		
 		self.font = pygame.font.SysFont("arial", 20)
 		self.open_label = self.font.render("OPEN", False, Colors.GREEN)
@@ -55,7 +59,7 @@ class VirtDashboard():
 			
 			if targets:
 				message = [f"      {self.servo1.angle}      ", 
-							f" Target:{self.servo1.target_angle}    "]
+						   f" Target:{self.servo1.target_angle}    "]
 			
 			# Update sensors
 			self.pir.update()
