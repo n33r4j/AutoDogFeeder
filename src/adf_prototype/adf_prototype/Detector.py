@@ -2,20 +2,41 @@ import rclpy
 from rclpy.node import Node
 from std_msgs.msg import Bool
 
-from gpiozero import MotionSensor
+from gpiozero import Device, MotionSensor
+
+# For mocking
+from gpiozero.pins.mock import MockFactory
+Device.pin_factory = MockFactory()
+
 
 class Detector(Node):
     def __init__(self):
         super().__init__('detector')
 
         self.publisher_ = self.create_publisher(Bool, 'dog_detected', 10)
+        
+        # REAL HARDWARE
         self.pir_pin = 5
         self.pir = MotionSensor(self.pir_pin)
-        self.timer = self.create_timer(0.1, self.timer_callback)
+        
+        self.check_timer = self.create_timer(0.1, self.check_timer_callback)
+        
+        self.mock_toggle_timer = self.create_timer(3, self.mock_toggle_timer_callback)
+        self.mock_toggle = False
 
-    def timer_callback(self):
+    def mock_toggle_timer_callback(self):
+        if not self.mock_toggle:
+            self.pir.pin.drive_high()
+        else:
+            self.pir.pin.drive_low()
+        self.mock_toggle = not self.mock_toggle
+
+    def check_timer_callback(self):
         val = self.pir.motion_detected
-        self.publisher_.publish(val)
+        msg = Bool()
+        msg.data = val
+        self.publisher_.publish(msg)
+        # self.get_logger().info("pir: %s" % (val))
 
 def main(args=None):
     rclpy.init(args=args)
