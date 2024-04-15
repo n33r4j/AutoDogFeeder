@@ -24,15 +24,15 @@ RUN sudo apt-get update && sudo apt-get upgrade -y
 RUN sudo apt-get install -y \
     git  \
     nano \
-    python3-pip \
+    python3-pip 
 
+RUN sudo mkdir AutoDogFeeder
 
 # Install python modules
-COPY requirements.txt ./
+COPY requirements.txt .
 RUN sudo pip install --no-cache-dir -r requirements.txt
 
 # Copy project files (or build when creating image?)
-RUN sudo mkdir AutoDogFeeder
 #COPY build/ AutoDogFeeder/build
 COPY images/ AutoDogFeeder/images
 #COPY install/ AutoDogFeeder/install
