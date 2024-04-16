@@ -8,12 +8,11 @@ from gpiozero import Device, MotionSensor
 from gpiozero.pins.mock import MockFactory
 Device.pin_factory = MockFactory()
 
-
 class Detector(Node):
     def __init__(self):
         super().__init__('detector')
 
-        self.publisher_ = self.create_publisher(Bool, 'dog_detected', 10)
+        self.publisher_ = self.create_publisher(Bool, '/dog_detected', 10)
         
         # REAL HARDWARE
         self.pir_pin = 5
@@ -42,6 +41,7 @@ def main(args=None):
     rclpy.init(args=args)
 
     detector_node = Detector()
+    detector_node.get_logger().info("Starting detector node...")
     rclpy.spin(detector_node)
     
     detector_node.destroy_node()
