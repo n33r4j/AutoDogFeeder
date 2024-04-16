@@ -29,17 +29,18 @@ RUN sudo apt-get install -y \
 RUN sudo mkdir AutoDogFeeder
 
 # Install python modules
-COPY requirements.txt .
-RUN sudo pip install --no-cache-dir -r requirements.txt
+#COPY requirements.txt .
+#RUN sudo pip install --no-cache-dir -r requirements.txt
 
 # Copy project files (or build when creating image?)
-#COPY build/ AutoDogFeeder/build
-COPY images/ AutoDogFeeder/images
-#COPY install/ AutoDogFeeder/install
-COPY launch/ AutoDogFeeder/launch
-#COPY log/ AutoDogFeeder/log
-COPY src/ AutoDogFeeder/src
-COPY run_demo.bash AutoDogFeeder/
+# COPY build/ AutoDogFeeder/build
+# COPY images/ AutoDogFeeder/images
+# COPY install/ AutoDogFeeder/install
+# COPY launch/ AutoDogFeeder/launch
+# COPY log/ AutoDogFeeder/log
+# COPY src/ AutoDogFeeder/src
+
+# COPY run_demo.bash AutoDogFeeder/
 # During development, the bind mount should overrite these, at least according to https://stackoverflow.com/a/51358541
 
 # Directory for storing videos
@@ -48,14 +49,24 @@ RUN sudo mkdir AutoDogFeeder/recordings
 # Rosdep update
 RUN rosdep update
 
+# might need this
+ENV RMW_IMPLEMENTATION=rmw_fastrtps_cpp
+
 # Install dependencies (this takes a while)
-RUN rosdep install -i --from-path src --rosdistro iron -y
+# RUN rosdep install -i --from-path AutoDogFeeder/src --rosdistro iron -y
+# Can't run this since it fails for ros-iron-cv-bridge
+# Need to manually run:
+RUN sudo apt-get update
+RUN sudo apt-get upgrade -y
+RUN sudo apt-get install ros-iron-cv-bridge -y
+RUN sudo apt-get install ros-iron-vision-opencv -y
 
 # Source the ROS setup file
 RUN echo "source /opt/ros/${ROS_DISTRO}/setup.bash" >> ~/.bashrc
 
 # Build ros package
-RUN cd AutoDogFeeder && colcon build
+#RUN cd AutoDogFeeder
+#RUN colcon build
 
 # 
 # ENTRYPOINT ["entrypoint.sh"]
