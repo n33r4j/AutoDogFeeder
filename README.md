@@ -26,10 +26,6 @@ An automatic dog feeder based on ROS 2(iron) running on a RPi4 B.
 
     (might be better to put this in an entrypoint.sh or other script.)
 
-- Install python modules.
-
-    `sudo python3 -m pip install gpiozero`
-
 - Build the package and source local workspace.
 
     `colcon build`
