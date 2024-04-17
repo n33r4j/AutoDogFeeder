@@ -8,11 +8,29 @@ An automatic dog feeder based on ROS 2(iron) running on a RPi4 B.
 
     > _Note:  This might take a while._
 
+- Clone this repo in a convenient location.
 - Assuming docker is installed on the RPi, run the container with 
 
-    `docker run -it -v /dev/video0:/dev/video0 --device-cgroup-rule='c 81:* rmw' n33r4j/auto_dog_feeder:v0.1`
+    ```
+    docker run -it -v ~/<path to cloned repo>/AutoDogFeeder:/AutoDogFeeder \
+    -v /dev/video0:/dev/video0 \
+    --device-cgroup-rule='c 81:* rmw' \
+    n33r4j/auto_dog_feeder:v0.1
+    ```
 
-    (might be better to put this in an entrypoint.sh)
+- Update dependencies with
+    `cd ~/AutoDogFeeder`
+    `rosdep install -yr --from-path src`
+    (might be better to put this in an entrypoint.sh or other script.)
+
+- Install python modules.
+    `sudo python3 -m pip install gpiozero`
+
+- Build the package and source local workspace.
+    `colcon build`
+    `source install/local_setup.bash`
+
+- Run the launch file. TODO
 
 _Alternatively, if you have the environment already setup(without docker?)_
 - Clone repo
