@@ -2,6 +2,7 @@ import rclpy
 from rclpy.node import Node
 from std_msgs.msg import Int8, Bool
 from datetime import datetime
+from adf_interfaces.msg import LCD16x2
 
 
 
@@ -30,6 +31,8 @@ class MainConsole(Node):
         self.feeder_state_pub = self.create_publisher(Int8, 'feeder_state', 10)
         self.feeder_state_timer = self.create_timer(1,
                                                     self.feeder_state_timer_callback)
+        
+        self.display_pub = self.create_publisher(LCD16x2, 'display_text', 10)
 
 
     def detector_callback(self, data):
@@ -55,6 +58,11 @@ class MainConsole(Node):
         if time_str in self.feeding_times.values():
             self.get_logger().info("It's feeding time!")
             self.is_feeding_time = True # Will be reset by Feeder node.
+
+        msg = LCD16x2()
+        msg.l1 = "{: ^16}".format(time_str)
+        msg.l2 = "{: ^16}".format(":)")
+        display_pub.publish(msg)
         
     def cleanup(self):
         pass
