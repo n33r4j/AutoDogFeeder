@@ -29,7 +29,7 @@ class MainConsole(Node):
 
     def detector_callback(self, data):
         self.get_logger().info("mc camera mode: %s" % data.data)
-        self.camera_mode = 1 if data.data else 0
+        self.curr_camera_mode = 1 if data.data else 0
 
     def camera_mode_timer_callback(self):
         msg = Int8()
