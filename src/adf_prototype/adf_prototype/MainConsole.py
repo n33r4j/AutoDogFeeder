@@ -1,6 +1,6 @@
 import rclpy
 from rclpy.node import Node
-from std_msgs.msg import Int8
+from std_msgs.msg import Int8, Bool
 from datetime import datetime
 
 
@@ -28,6 +28,7 @@ class MainConsole(Node):
 
 
     def detector_callback(self, data):
+        self.get_logger().info("mc camera mode: %s" % data.data)
         self.camera_mode = 1 if data.data else 0
 
     def camera_mode_timer_callback(self):
@@ -53,7 +54,7 @@ def main(args=None):
     rclpy.init(args=args)
 
     main_console_node = MainConsole()
-    detector_node.get_logger().info("Starting main console node...")
+    main_console_node.get_logger().info("Starting main console node...")
     rclpy.spin(main_console_node)
     
     main_console_node.cleanup()

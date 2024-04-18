@@ -117,7 +117,7 @@ def main(args=None):
     rclpy.init(args=args)
 
     camera_node = Camera()
-    detector_node.get_logger().info("Starting camera node...")
+    camera_node.get_logger().info("Starting camera node...")
     rclpy.spin(camera_node)
     
     camera_node.cleanup()
