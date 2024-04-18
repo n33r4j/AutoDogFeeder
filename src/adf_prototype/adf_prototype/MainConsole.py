@@ -1,5 +1,6 @@
 import rclpy
 from rclpy.node import Node
+from std_msgs.msg import Int8
 from datetime import datetime
 
 
@@ -18,8 +19,21 @@ class MainConsole(Node):
         self.feeding_timer = self.create_timer(self.feeding_timer_period,
                                                self.feeding_timer_callback)
 
-    def sub_callback(self, data):
-        pass
+        self.curr_camera_mode = 0 # See Camera node
+        self.camera_mode_pub = self.create_publisher(Int8, 'camera_mode', 10)
+        self.camera_mode_timer = self.create_timer(0.5,
+                                               self.camera_mode_timer_callback)
+        
+        self.detector_sub = self.create_subscription(Bool, 'dog_detected', self.detector_callback, 10)
+
+
+    def detector_callback(self, data):
+        self.camera_mode = 1 if data.data else 0
+
+    def camera_mode_timer_callback(self):
+        msg = Int8()
+        msg.data = self.curr_camera_mode
+        self.camera_mode_pub.publish(msg)
 
     def feeding_timer_callback(self):
         curr_time = self.get_clock().now().to_msg()
@@ -39,6 +53,7 @@ def main(args=None):
     rclpy.init(args=args)
 
     main_console_node = MainConsole()
+    detector_node.get_logger().info("Starting main console node...")
     rclpy.spin(main_console_node)
     
     main_console_node.cleanup()

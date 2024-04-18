@@ -17,8 +17,8 @@ class Camera(Node):
        
     
         self.publisher_ = self.create_publisher(Image, 'video_frames', 10)
-        self.subscription_ = self.create_subscription(Int8, '/camera_mode', self.mode_callback, 10)
-        self.mode = 0 # 0 -> idle, 1 -> record
+        self.subscription_ = self.create_subscription(Int8, 'camera_mode', self.mode_callback, 10)
+        self.mode = 0 # 0 -> idle, 1 -> record, -1 -> off?
         self.framerate = 20.0
         self.timeout = 5 # seconds
         self.recordings_dir = "recordings"
@@ -117,6 +117,7 @@ def main(args=None):
     rclpy.init(args=args)
 
     camera_node = Camera()
+    detector_node.get_logger().info("Starting camera node...")
     rclpy.spin(camera_node)
     
     camera_node.cleanup()

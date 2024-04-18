@@ -9,10 +9,13 @@ from gpiozero.pins.mock import MockFactory
 Device.pin_factory = MockFactory()
 
 class Detector(Node):
+    """
+    For now, just switches between detected and not detected every 3 seconds.
+    """
     def __init__(self):
         super().__init__('detector')
 
-        self.publisher_ = self.create_publisher(Bool, '/dog_detected', 10)
+        self.publisher_ = self.create_publisher(Bool, 'dog_detected', 10)
         
         # REAL HARDWARE
         self.pir_pin = 5
@@ -29,6 +32,8 @@ class Detector(Node):
         else:
             self.pir.pin.drive_low()
         self.mock_toggle = not self.mock_toggle
+        # TODO: maybe make detection based on keyboard button press
+        # See https://github.com/rohbotics/ros2_teleop_keyboard/blob/master/teleop_twist_keyboard.py
 
     def check_timer_callback(self):
         val = self.pir.motion_detected
