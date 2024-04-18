@@ -23,7 +23,9 @@ class Detector(Node):
         
         self.check_timer = self.create_timer(0.1, self.check_timer_callback)
         
-        self.mock_toggle_timer = self.create_timer(3, self.mock_toggle_timer_callback)
+        self.mock_toggle_period = 6 # Set it to greater than camera timout (5 sec) for multiple recordings.
+        self.mock_toggle_timer = self.create_timer(self.mock_toggle_period, 
+                                                    self.mock_toggle_timer_callback)
         self.mock_toggle = False
 
     def mock_toggle_timer_callback(self):
