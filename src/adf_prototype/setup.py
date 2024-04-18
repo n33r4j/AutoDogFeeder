@@ -24,6 +24,7 @@ setup(
             'camera = adf_prototype.Camera:main',
             'feeder = adf_prototype.Feeder:main',
             'detector = adf_prototype.Detector:main',
+            'display = adf_prototype.Display:main',
         ],
     },
 )
