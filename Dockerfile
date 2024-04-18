@@ -61,6 +61,9 @@ RUN sudo mkdir AutoDogFeeder
 # Directory for storing videos
 RUN sudo mkdir AutoDogFeeder/recordings
 
+# Directory for fake camera input
+COPY fake_video/ AutoDogFeeder/fake_video
+
 # Rosdep update
 RUN rosdep update
 

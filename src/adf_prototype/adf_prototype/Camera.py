@@ -8,6 +8,8 @@ import os
 
 from datetime import datetime
 
+VIDEO_SOURCE = 1 # 0 -> real, 1 -> fake
+
 
 class Camera(Node):
     def __init__(self):
@@ -29,13 +31,18 @@ class Camera(Node):
         timer_period = 0.1  # seconds
         self.timer = self.create_timer(timer_period, self.timer_callback)
             
-        self.cap = cv2.VideoCapture(0)
+        if VIDEO_SOURCE == 0:
+            self.cap = cv2.VideoCapture(0)
+        elif VIDEO_SOURCE == 1:
+            self.cap = cv2.VideoCapture("fake_video/puppy_%d.png")
+
         if not self.cap.isOpened():
             self.get_logger().error("Could not open camera")
             exit()
 
         self.frameW = int(self.cap.get(cv2.CAP_PROP_FRAME_WIDTH))
         self.frameH = int(self.cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+        # self.get_logger().info("%d, %d" % (self.frameW, self.frameH))
             
         self.br = CvBridge()
     
@@ -100,7 +107,10 @@ class Camera(Node):
                     else:
                         pass
         else:
-            self.get_logger().error("Couldn't get frame")
+            if VIDEO_SOURCE == 1:
+                self.cap.set(cv2.CAP_PROP_POS_FRAMES, 0) # To loop video
+            else:
+                self.get_logger().error("Couldn't get frame")
 
 
 def main(args=None):
