@@ -62,7 +62,7 @@ class MainConsole(Node):
         msg = LCD16x2()
         msg.l1 = "{: ^16}".format(time_str)
         msg.l2 = "{: ^16}".format(":)")
-        display_pub.publish(msg)
+        self.display_pub.publish(msg)
         
     def cleanup(self):
         pass
