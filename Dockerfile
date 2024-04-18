@@ -87,7 +87,7 @@ RUN sudo apt-get install ros-iron-vision-opencv -y
 
 # For a handful of modules, just do this. Consider poetry or something else if this grows.
 # Also a venv if needed.
-RUN sudo python3 -m pip install gpiozero
+RUN sudo python3 -m pip install gpiozero RPLCD RPi.GPIO
 
 # Source the ROS setup file
 RUN echo "source /opt/ros/${ROS_DISTRO}/setup.bash" >> ~/.bashrc
