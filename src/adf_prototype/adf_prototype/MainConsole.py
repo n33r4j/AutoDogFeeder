@@ -21,15 +21,25 @@ class MainConsole(Node):
 
         self.curr_camera_mode = 0 # See Camera node
         self.camera_mode_pub = self.create_publisher(Int8, 'camera_mode', 10)
-        self.camera_mode_timer = self.create_timer(0.5,
+        self.camera_mode_timer = self.create_timer(1,
                                                self.camera_mode_timer_callback)
         
         self.detector_sub = self.create_subscription(Bool, 'dog_detected', self.detector_callback, 10)
+
+        self.curr_feeder_state = 0
+        self.feeder_state_pub = self.create_publisher(Int8, 'feeder_state', 10)
+        self.feeder_state_timer = self.create_timer(1,
+                                                    self.feeder_state_timer_callback)
 
 
     def detector_callback(self, data):
         self.get_logger().info("mc camera mode: %s" % data.data)
         self.curr_camera_mode = 1 if data.data else 0
+
+    def feeder_state_timer_callback(self):
+        msg = Int8()
+        msg.data = self.curr_feeder_state
+        self.feeder_state_pub.publish(msg)
 
     def camera_mode_timer_callback(self):
         msg = Int8()
