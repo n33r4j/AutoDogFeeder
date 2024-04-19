@@ -83,12 +83,13 @@ Depends on the exact purpose of the camera recordings.
 - allow owner to see/interact with dog remotely?
 
 ## Video Storage:
-- overwrite old recordings(default)?
-- backup to a local server/cloud?
-- compress videos?
+- Overwrite old recordings(default)?
+- Backup to a local server/cloud?
+- Compress videos?
 
 ## Feeder:
-You may need to dispense water more often than food.
+ - You may need to dispense water more often than food.
+ - Might need to preempt/retry the door mechanism if jamming is an issue(unless the design prevents this). Need to choose between complicating software or hardware.
 
 # Testing
 - Tests for each node using pytest?
