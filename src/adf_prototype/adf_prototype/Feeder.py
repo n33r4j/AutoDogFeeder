@@ -49,7 +49,8 @@ class Feeder(Node):
         if self.curr_door_angle != self.curr_door_target_angle:
             self.servo_1.angle = self.curr_door_angle
             self.curr_door_angle = self.curr_door_target_angle
-            self.get_logger().info("Moving to %d" % self.curr_door_target_angle)
+            message = "Opening" if self.curr_door_target_angle == self.open_angle else "Closing" 
+            self.get_logger().info("%s door (pos: %d)" % (message, self.curr_door_target_angle))
 
     def cleanup(self):
         pass
