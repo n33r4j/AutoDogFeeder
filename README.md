@@ -29,7 +29,7 @@ An automatic dog feeder based on ROS 2(iron) running on a RPi4 B.
 - Build the package and source local workspace.
 
     `colcon build`
-    
+
     `source install/local_setup.bash`
 
 - Run the launch file. TODO
@@ -50,6 +50,8 @@ _Alternatively, if you have the environment already setup(without docker?)_
 - Powered from a wall outlet(no batteries).
 - Gravity based food and water dispensing with minimal jamming.
 - Food and water dispensing is coupled.
+- The dispenser servo reaches a target in negligible time.
+- The dispenser is designed in a way to achieve controlled flow of water and food, i.e. something like a tap.
 - The dog is not scared of the automatic feeder or the sounds it makes.
 - 
 
