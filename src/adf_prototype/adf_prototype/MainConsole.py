@@ -15,7 +15,7 @@ class MainConsole(Node):
         self.feeding_times = {"morning": "07:25:00",
                               "afternoon": "07:25:30",
                               "evening": "07:26:00"}
-        self.sec_till_next_meal = self.get_clock.now().to_msg().sec
+        self.sec_till_next_meal = self.get_clock().now().to_msg().sec
         self.time_till_next_meal = datetime.utcfromtimestamp(self.sec_till_next_meal).strftime("%H:%M:%S")
 
         self.total_portions = 10
